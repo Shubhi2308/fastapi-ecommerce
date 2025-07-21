@@ -48,7 +48,7 @@ async def list_products(name: str = None, size: str = None, limit: int = 10, off
             "page": {
                 "next": offset + limit,
                 "limit": len(data),
-                "previous": max(0, offset - limit)
+                "previous": offset - limit
             }
         }
     except Exception as e:
