@@ -1,9 +1,8 @@
-# controller/productController.py
-
-from fastapi import HTTPException
+# controller/productcontroller.py
+from utils import generate_id
 from database import products_collection
 from models import ProductCreate
-from utils import generate_id
+from fastapi import HTTPException
 
 async def create_product(product: ProductCreate):
     product_id = generate_id()
@@ -13,10 +12,11 @@ async def create_product(product: ProductCreate):
     try:
         await products_collection.insert_one(product_dict)
     except Exception as e:
-        print("❌ ERROR inserting product:", e)
+        print(f"Error inserting product: {e}")
         raise HTTPException(status_code=500, detail="Failed to insert product")
 
     return {"id": product_id}
+
 
 async def list_products(name: str = None, size: str = None, limit: int = 10, offset: int = 0):
     query = {}
@@ -47,9 +47,9 @@ async def list_products(name: str = None, size: str = None, limit: int = 10, off
             "page": {
                 "next": offset + limit,
                 "limit": len(data),
-                "previous": max(offset - limit, 0)
+                "previous": max(0, offset - limit)
             }
         }
     except Exception as e:
-        print("❌ ERROR fetching products:", e)
+        print(f"Error fetching products: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch products")

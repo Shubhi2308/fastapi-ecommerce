@@ -8,4 +8,4 @@ def read_root():
     return {"message": "Welcome to E-Commerce API"}
 
 app.include_router(productRouter.router, prefix="/products", tags=["Products"])
-app.include_router(orderRouter.router, prefix="/orders", tags=["Orders"])
+app.include_router(orderRouter.router, prefix="/orders", tags=["Orders"]) 
